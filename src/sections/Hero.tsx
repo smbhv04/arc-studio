@@ -1,28 +1,28 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { motion } from 'framer-motion';
+import AnimatedGradientBackground from '../components/AnimatedGradientBackground';
+import { GooeyText } from '../components/GooeyText';
 
 const Hero = () => {
   const sectionRef  = useRef<HTMLElement>(null);
-  const headRef     = useRef<HTMLHeadingElement>(null);
+  const headRef     = useRef<HTMLDivElement>(null);
   const subRef      = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-      // Clean, simple reveal of the massive headline
       tl.fromTo(
         headRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1.5, delay: 0.2 }
+        { opacity: 0, scale: 0.98, y: 24 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.8, delay: 0.4 }
       )
-      // Reveal the subline and CTA
       .fromTo(
         subRef.current,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 1.2 },
-        '-=1.0'
+        '-=1.2'
       );
     }, sectionRef);
 
@@ -32,107 +32,87 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-[100svh] flex flex-col overflow-hidden bg-black"
+      className="relative w-full min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-black"
     >
-      {/* ── IMAGE BACKGROUND ─────────────────── */}
-      <img
-        src="/hero-bg.jpg"
-        alt="Hero background"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.8 }}
-      />
-
-      {/* Vignette to ensure text readability */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%)',
-        }}
-      />
+      {/* ── ANIMATED AURA BACKGROUND ─────── */}
+      <AnimatedGradientBackground />
       
-      {/* Top gradient for Header visibility */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-40 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%)' }}
-      />
+      {/* Layered Vignettes for Depth & Contrast */}
+      <div className="absolute inset-0 bg-black/30 pointer-events-none z-[1]" />
+      <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black to-transparent z-[1] pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black to-transparent z-[1] pointer-events-none" />
 
       {/* ── CONTENT ──────────────────────────── */}
-      {/* We use a grid to perfectly match the editorial layout: 
-          Top: tags, Middle: huge headline, Bottom: subline & scroll */}
-      <div className="relative z-10 flex-1 flex flex-col grid-editorial h-full pb-8 md:pb-12 pt-32">
-        
-        {/* Top area */}
-        <div className="grid-full flex justify-between items-start">
-          {/* Empty left (logo is in header) */}
-          <div />
-          {/* Right tags */}
-          <div className="text-right hidden md:block">
-            <span className="text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-white/50">
-              STRATEGY / DESIGN / BUILD
-            </span>
-          </div>
-        </div>
+      <div className="relative z-10 w-full max-w-[1200px] px-6 md:px-12 flex flex-col items-center text-center">
 
-        {/* Center area: Massive Headline */}
-        <div className="grid-full flex-1 flex items-center justify-center md:justify-start">
-          <h1
-            ref={headRef}
-            className="font-serif text-white tracking-[-0.03em] leading-[0.9] text-center md:text-left text-balance"
-            style={{ 
-              fontSize: 'clamp(4rem, 11vw, 13rem)',
-              textShadow: '0 10px 30px rgba(0,0,0,0.5)'
-            }}
+        {/* Overline */}
+        <div className="mb-8 overflow-hidden">
+          <motion.div
+            initial={{ y: 18, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-3"
           >
-            Built to<br className="hidden md:block"/> convert<span style={{ color: 'var(--color-accent)' }}>.</span>
-          </h1>
+            <div className="w-6 h-px bg-white/20" />
+            <span className="text-[10px] font-sans font-bold uppercase tracking-[0.45em] text-white/40">
+              Design · Engineering · Strategy
+            </span>
+            <div className="w-6 h-px bg-white/20" />
+          </motion.div>
         </div>
 
-        {/* Bottom area: Sub & Scroll */}
-        <div 
-          ref={subRef} 
-          className="grid-full flex flex-col md:flex-row md:items-end justify-between gap-8 mt-auto"
+        {/* Headline */}
+        <div
+          ref={headRef}
+          className="w-full flex flex-col items-center justify-center mb-10"
         >
-          {/* Left: Subline & CTA */}
-          <div className="max-w-md">
-            <p className="text-white/70 text-sm md:text-base leading-[1.6] mb-6">
-              High-performance websites and web applications for growing brands. 
-              We don't aim for the middle.
-            </p>
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-3 bg-accent text-black font-sans font-bold text-[12px] uppercase tracking-[0.15em] px-7 py-4 transition-transform duration-300 hover:scale-[1.02]"
-            >
-              Start a project
-              <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Right: Scroll Indicator */}
-          <div className="hidden md:flex flex-col items-center gap-4">
-            <span
-              className="text-[9px] font-sans font-semibold uppercase tracking-[0.25em] text-white/40"
-              style={{ writingMode: 'vertical-lr' }}
-            >
-              SCROLL
+          <div className="text-white font-serif tracking-[-0.03em] leading-[1.05] flex flex-col items-center">
+            <span className="text-[3.2rem] md:text-[5.5rem] lg:text-[7rem] text-balance max-w-4xl">
+              Websites & apps that
             </span>
-            <div className="w-px h-16 bg-white/15 relative overflow-hidden">
-              <div
-                className="absolute top-0 left-0 right-0 bg-accent"
-                style={{ height: '30%', animation: 'scrollLine 2s ease-in-out infinite' }}
+            <div className="h-[4rem] md:h-[7rem] lg:h-[9rem] flex items-center justify-center">
+              <GooeyText
+                texts={["convert", "scale", "perform", "win"]}
+                morphTime={1.4}
+                cooldownTime={2.2}
+                textClassName="font-serif text-accent tracking-[-0.03em] leading-[1] text-[3.8rem] md:text-[6.5rem] lg:text-[8.5rem]"
               />
             </div>
           </div>
         </div>
-      </div>
 
-      <style>{`
-        @keyframes scrollLine {
-          0%   { top: -30%; }
-          100% { top: 130%; }
-        }
-      `}</style>
+        {/* Sub & CTA */}
+        <div
+          ref={subRef}
+          className="max-w-xl flex flex-col items-center"
+        >
+          <p className="text-white/45 text-[15px] md:text-lg font-normal leading-[1.65] mb-12 text-balance">
+            We design and build high-performance digital products for startups 
+            and growing brands — fast to ship, built to last.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 items-center">
+            {/* Primary – white */}
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-3 bg-white text-black font-sans font-bold text-[12px] uppercase tracking-[0.18em] px-10 py-5 transition-all duration-300 hover:bg-white/90 hover:scale-[1.03]"
+            >
+              Start a Project
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+
+            {/* Secondary – ghost */}
+            <a
+              href="#work"
+              className="text-white/35 hover:text-white font-sans font-medium text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 py-3 border-b border-white/10 hover:border-white/30"
+            >
+              View Our Work
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
