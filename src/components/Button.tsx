@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'outline' | 'dark-outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   className?: string;
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles = `
-    inline-flex items-center gap-2.5 font-sans font-medium
+    inline-flex items-center gap-2.5 font-sans font-semibold uppercase tracking-[0.12em]
     transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
     focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
     disabled:opacity-50 disabled:cursor-not-allowed
@@ -26,32 +26,35 @@ const Button: React.FC<ButtonProps> = ({
 
   const variants = {
     primary: `
-      bg-accent text-white
-      hover:shadow-[0_8px_30px_rgba(255,77,0,0.25)]
-      hover:scale-[1.02]
-      active:scale-[0.98]
-      focus-visible:ring-accent
-    `,
-    outline: `
-      border border-primary/12 text-primary bg-transparent
-      hover:border-primary/30
-      hover:shadow-[var(--shadow-sm)]
-      hover:scale-[1.02]
+      bg-primary text-white
+      hover:bg-accent hover:shadow-[0_8px_30px_rgba(247,127,0,0.3)]
       active:scale-[0.98]
       focus-visible:ring-primary
     `,
+    outline: `
+      border border-primary/15 text-primary bg-transparent
+      hover:border-primary/40
+      active:scale-[0.98]
+      focus-visible:ring-primary
+    `,
+    'dark-outline': `
+      border border-white/20 text-white bg-transparent
+      hover:border-white/50 hover:bg-white/5
+      active:scale-[0.98]
+      focus-visible:ring-white
+    `,
     ghost: `
       text-primary bg-transparent
-      hover:bg-primary/5
+      hover:text-accent
       active:scale-[0.98]
       focus-visible:ring-primary
     `,
   };
 
   const sizes = {
-    sm: 'px-5 py-2.5 text-[13px]',
-    md: 'px-6 py-3 text-[14px]',
-    lg: 'px-7 py-3.5 text-[15px]',
+    sm: 'px-5 py-2.5 text-[11px]',
+    md: 'px-6 py-3 text-[12px]',
+    lg: 'px-7 py-4 text-[13px]',
   };
 
   const arrow = (

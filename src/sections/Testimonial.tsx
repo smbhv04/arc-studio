@@ -1,51 +1,91 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
+const testimonials = [
+  {
+    quote: "Finally, an agency that understands the difference between 'clean' and 'empty.' They built us a site that actually converts.",
+    name: 'Sarah Jenkins',
+    role: 'Founder, Arch. Studio',
+    metric: '+40% inquiries',
+  },
+  {
+    quote: "We went from a template that was embarrassing to show investors to one we're genuinely proud of. Pre-seed closed in 3 weeks after launch.",
+    name: 'Arjun Mehta',
+    role: 'Co-founder, Vibes.ai',
+    metric: 'Pre-seed secured',
+  },
+  {
+    quote: "ARC didn't just build what I asked for — they challenged me on things that would have hurt conversions. That honesty is rare.",
+    name: 'Priya Nair',
+    role: 'CEO, Maison & Co.',
+    metric: '+65% conversion',
+  },
+];
+
 const Testimonial = () => {
   const revealRef = useScrollReveal<HTMLElement>();
 
   return (
     <section
       ref={revealRef}
-      className="reveal reveal-stagger"
+      className="reveal reveal-stagger bg-surface"
       style={{ paddingTop: 'var(--spacing-section)', paddingBottom: 'var(--spacing-section)' }}
     >
       <div className="grid-editorial">
-        <div className="grid-full flex flex-col items-center text-center">
-          {/* Quote mark */}
-          <div className="reveal-child mb-6 md:mb-8">
-            <svg width="36" height="28" viewBox="0 0 40 32" fill="none" className="text-accent/20">
-              <path
-                d="M0 32V20.8C0 9.07 7.2 2.13 18 0l1.5 3.2C12.3 5.07 8.7 9.87 8.1 16H18v16H0zm22 0V20.8C22 9.07 29.2 2.13 40 0l1.5 3.2c-7.2 1.87-10.8 6.67-11.4 12.8H40v16H22z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-
-          {/* Quote text */}
-          <blockquote className="reveal-child max-w-3xl px-4 md:px-0">
-            <p
-              className="font-serif text-primary leading-[1.15] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(1.5rem, 2.5vw + 0.5rem, 2.75rem)' }}
-            >
-              Finally, an agency that understands the difference between
-              <em className="italic"> 'clean'</em> and
-              <em className="italic"> 'empty.'</em>{' '}
-              <span className="text-text-muted">
-                They built us a site that actually converts.
-              </span>
-            </p>
-          </blockquote>
-
-          {/* Attribution */}
-          <div className="reveal-child mt-8 md:mt-10 flex flex-col items-center gap-1">
-            <span className="text-sm font-sans font-semibold text-primary">
-              Sarah Jenkins
-            </span>
-            <span className="text-[11px] md:text-xs text-text-muted uppercase tracking-[0.1em]">
-              Founder, Arch. Studio · Inquiries up 40%
-            </span>
+        {/* Label */}
+        <div className="grid-full mb-12 md:mb-16">
+          <div className="reveal-child flex items-end justify-between">
+            <span className="label-overline">What they say</span>
+            <span className="text-text-muted text-[12px] font-sans">{testimonials.length} clients</span>
           </div>
         </div>
+
+        {/* Cards */}
+        {testimonials.map((t, i) => (
+          <div
+            key={i}
+            className="reveal-child col-span-12 md:col-span-4 flex flex-col"
+            style={{ paddingBottom: 'clamp(1.5rem, 3vw, 2.5rem)' }}
+          >
+            <div
+              className="flex flex-col h-full py-10 md:py-14"
+              style={{ borderTop: '1px solid var(--color-border)' }}
+            >
+              {/* Index */}
+              <span className="font-mono text-xs text-text-muted tabular-nums mb-8 md:mb-12 block">
+                0{i + 1}
+              </span>
+
+              {/* Quote */}
+              <p
+                className="font-serif text-primary leading-[1.3] flex-1 mb-10 md:mb-14"
+                style={{
+                  fontSize: 'clamp(1.5rem, 2.5vw + 0.5rem, 2.5rem)',
+                  letterSpacing: '-0.03em',
+                }}
+              >
+                "{t.quote}"
+              </p>
+
+              {/* Attribution */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="block text-[13px] font-sans font-semibold text-primary">
+                    {t.name}
+                  </span>
+                  <span className="block text-[11px] font-sans text-text-muted mt-0.5 uppercase tracking-[0.08em]">
+                    {t.role}
+                  </span>
+                </div>
+                <span
+                  className="text-[10px] font-sans font-semibold uppercase tracking-[0.1em] px-2.5 py-1.5"
+                  style={{ background: 'var(--color-accent-soft)', color: 'var(--color-accent)' }}
+                >
+                  {t.metric}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

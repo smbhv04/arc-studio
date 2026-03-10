@@ -7,6 +7,8 @@ import Services from './sections/Services';
 import SelectedWork from './sections/SelectedWork';
 import Testimonial from './sections/Testimonial';
 import Process from './sections/Process';
+import WhyUs from './sections/WhyUs';
+import Pricing from './sections/Pricing';
 import FAQ from './sections/FAQ';
 import FinalCTA from './sections/FinalCTA';
 
@@ -16,15 +18,17 @@ function App() {
       <Header />
 
       <main className="flex-grow">
-        <Hero />              {/* ① Transformation + ICP */}
-        <LogoBar />           {/* ② Credibility strip */}
-        <PainAgitation />     {/* ③ Name the pain */}
+        <Hero />              {/* ① Full-viewport dark hero — what we do */}
+        <LogoBar />           {/* ② Immediate credibility strip */}
+        <PainAgitation />     {/* ③ Name the problem */}
         <Services />          {/* ④ Solution mechanism */}
-        <SelectedWork />      {/* ⑤ Visual proof */}
-        <Testimonial />       {/* ⑥ Social proof moment */}
-        <Process />           {/* ⑦ How it works (3 steps) */}
-        <FAQ />               {/* ⑧ Objection handling */}
-        <FinalCTA />          {/* ⑨ Conversion close */}
+        <SelectedWork />      {/* ⑤ Portfolio proof */}
+        <Testimonial />       {/* ⑥ 3-card social proof */}
+        <Process />           {/* ⑦ How it works (dark) */}
+        <WhyUs />             {/* ⑧ Why ARC vs. others (dark) */}
+        <Pricing />           {/* ⑨ Transparent pricing cards */}
+        <FAQ />               {/* ⑩ Objection handling */}
+        <FinalCTA />          {/* ⑪ Dark conversion close + urgency */}
       </main>
 
       <Footer />

@@ -14,28 +14,28 @@ const projects: ProjectData[] = [
     category: 'Website Design',
     year: '2025',
     outcome: '+40% qualified inquiries',
-    gradient: 'from-[#E8E4DF] to-[#D8D3CC]',
+    gradient: 'from-[#EBEBEB] to-[#E0E0E0]',
   },
   {
     title: 'Vibes.ai',
     category: 'Web Application',
     year: '2025',
     outcome: 'Pre-seed secured in 3 weeks',
-    gradient: 'from-[#E0DDD8] to-[#D0CBC4]',
+    gradient: 'from-[#F0F0F0] to-[#E5E5E5]',
   },
   {
     title: 'Arch. Studio',
     category: 'Brand + Website',
     year: '2024',
     outcome: '3x page load improvement',
-    gradient: 'from-[#DDD8D3] to-[#CCC6BF]',
+    gradient: 'from-[#E8E8E8] to-[#DCDCDC]',
   },
   {
     title: 'Nōva Interiors',
     category: 'E-Commerce',
     year: '2024',
     outcome: '+65% conversion rate',
-    gradient: 'from-[#E5E0DA] to-[#D5CEC6]',
+    gradient: 'from-[#F2F2F2] to-[#E8E8E8]',
   },
 ];
 
@@ -49,11 +49,11 @@ const ProjectCard = ({
   <div className={`group cursor-pointer ${className}`}>
     {/* Image area */}
     <div
-      className={`relative aspect-[4/3] bg-gradient-to-br ${project.gradient} rounded-sm overflow-hidden mb-4 md:mb-5 transition-all duration-500`}
+      className={`relative aspect-[4/5] md:aspect-[3/4] bg-gradient-to-br ${project.gradient} rounded-sm overflow-hidden mb-5 md:mb-6 transition-all duration-500`}
     >
       {/* Typography as placeholder visual */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-[6rem] sm:text-[8rem] lg:text-[10rem] font-serif text-primary/[0.05] leading-none select-none transition-transform duration-700 group-hover:scale-110">
+        <span className="text-[8rem] sm:text-[12rem] lg:text-[16rem] font-serif text-primary/[0.04] leading-none select-none transition-transform duration-1000 group-hover:scale-[1.15]">
           {project.title.charAt(0)}
         </span>
       </div>
@@ -72,10 +72,10 @@ const ProjectCard = ({
     {/* Meta */}
     <div className="flex items-baseline justify-between gap-4">
       <div className="min-w-0">
-        <h3 className="text-sm md:text-base font-sans font-medium text-primary group-hover:text-accent transition-colors duration-300 truncate">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-serif text-primary group-hover:text-accent transition-colors duration-300 truncate">
           {project.title}
         </h3>
-        <span className="text-[11px] md:text-xs text-text-muted mt-0.5 block">{project.category}</span>
+        <span className="text-xs md:text-sm text-text-muted mt-1 md:mt-1.5 block uppercase tracking-[0.1em]">{project.category}</span>
       </div>
       <span className="text-[10px] md:text-[11px] font-mono text-text-muted/50 tabular-nums flex-shrink-0">
         {project.year}
@@ -98,7 +98,7 @@ const SelectedWork = () => {
         {/* Header */}
         <div className="grid-full flex flex-col md:flex-row md:items-end md:justify-between mb-10 md:mb-16 lg:mb-20">
           <div className="reveal-child">
-            <span className="block text-[11px] font-sans font-semibold uppercase tracking-[0.15em] text-text-muted mb-3 md:mb-4">
+            <span className="label-overline block mb-3 md:mb-4">
               Selected work
             </span>
             <h2 className="font-serif text-primary">
@@ -125,16 +125,16 @@ const SelectedWork = () => {
         </div>
 
         {/* Staggered project grid */}
-        <div className="grid-7">
+        <div className="col-span-12 md:col-span-7">
           <ProjectCard project={projects[0]} className="reveal-child" />
         </div>
-        <div className="grid-5 md:mt-20">
+        <div className="col-span-12 md:col-span-5 md:mt-20">
           <ProjectCard project={projects[1]} className="reveal-child" />
         </div>
-        <div className="grid-5-left md:mt-8">
+        <div className="col-span-12 md:col-span-5 md:mt-8">
           <ProjectCard project={projects[2]} className="reveal-child" />
         </div>
-        <div className="grid-7-right md:-mt-8">
+        <div className="col-span-12 md:col-span-7 md:-mt-8">
           <ProjectCard project={projects[3]} className="reveal-child" />
         </div>
 

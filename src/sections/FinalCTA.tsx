@@ -1,5 +1,4 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import Button from '../components/Button';
 
 const FinalCTA = () => {
   const revealRef = useScrollReveal<HTMLElement>();
@@ -7,59 +6,87 @@ const FinalCTA = () => {
   return (
     <section
       ref={revealRef}
-      className="reveal reveal-stagger bg-surface"
+      className="reveal reveal-stagger bg-surface-dark relative overflow-hidden"
       style={{ paddingTop: 'var(--spacing-section)', paddingBottom: 'var(--spacing-section)' }}
     >
-      <div className="grid-editorial">
-        <div className="grid-full flex flex-col items-center text-center px-4 md:px-0">
-          {/* Transformation restatement */}
-          <h2
-            className="reveal-child font-serif text-primary leading-[1.08] tracking-[-0.025em] max-w-3xl text-balance"
-            style={{ fontSize: 'clamp(1.75rem, 3.5vw + 0.5rem, 3.5rem)' }}
-          >
-            Stop spending on repairs<span className="text-accent">.</span>
-            <br />
-            Start investing in{' '}
-            <em className="italic">infrastructure</em>
-            <span className="text-accent">.</span>
-          </h2>
+      {/* Subtle grain texture */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px 200px',
+        }}
+      />
 
-          <p className="reveal-child mt-6 md:mt-8 text-text-secondary text-[clamp(0.9375rem,1vw+0.5rem,1.0625rem)] leading-[1.75] max-w-md">
-            If you need clarity, speed, and technical excellence — we should talk.
-          </p>
+      <div className="grid-editorial relative z-10">
+        <div className="grid-full flex flex-col items-start">
 
-          {/* CTA */}
-          <div className="reveal-child mt-8 md:mt-12 flex flex-col items-center gap-4 md:gap-5">
-            <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4">
-              <Button size="lg" variant="primary">
-                Get my free audit
-              </Button>
-              <span className="text-sm text-text-muted">or</span>
-              <a
-                href="mailto:hello@arcstudio.com"
-                className="text-accent font-medium hover:underline underline-offset-4 decoration-1 decoration-accent/30 transition-all duration-300 hover:decoration-accent text-sm md:text-base"
-              >
-                Email us directly
-              </a>
-            </div>
-            <span className="text-[10px] md:text-[11px] text-text-muted uppercase tracking-[0.12em]">
-              No commitment · Free strategy call · 15 minutes
+          {/* Overline */}
+          <div className="reveal-child flex items-center gap-3 mb-10 md:mb-14">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-70" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent" />
+            </span>
+            <span
+              className="text-[10px] font-sans font-semibold uppercase tracking-[0.18em]"
+              style={{ color: 'rgba(255,255,255,0.3)' }}
+            >
+              2 spots remaining in April
             </span>
           </div>
 
-          {/* Trust signifiers */}
-          <div className="reveal-child mt-12 md:mt-16 flex flex-wrap items-center justify-center gap-x-6 md:gap-x-8 gap-y-2 md:gap-y-3">
-            {['Clear Scope', 'No Bloated Timelines', 'Senior-Only Team', 'Direct Founder Access'].map(
-              (item) => (
-                <span
-                  key={item}
-                  className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.1em] text-text-muted/60 flex items-center gap-2"
-                >
-                  <span className="w-1 h-1 rounded-full bg-accent/30" />
-                  {item}
-                </span>
-              )
-            )}
+          {/* Main headline */}
+          <h2
+            className="reveal-child font-serif leading-[0.97] tracking-[-0.04em]"
+            style={{
+              fontSize: 'clamp(2.5rem, 7vw + 0.5rem, 9rem)',
+              color: '#FFFFFF',
+              maxWidth: '14ch',
+            }}
+          >
+            Stop patching.
+            <br />
+            Start{' '}
+            <em className="italic" style={{ color: 'var(--color-accent)' }}>investing</em>
+            .
+          </h2>
+
+          {/* Divider */}
+          <div
+            className="reveal-child w-full mt-12 md:mt-16 mb-12 md:mb-16"
+            style={{ height: '1px', background: 'rgba(255,255,255,0.08)' }}
+          />
+
+          {/* Bottom row */}
+          <div className="reveal-child w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <p
+              className="text-sm leading-[1.8] max-w-sm"
+              style={{ color: 'rgba(255,255,255,0.35)' }}
+            >
+              If you need clarity, speed, and technical excellence —
+              <strong style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}> we should talk</strong>.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <a
+                href="#contact"
+                className="group inline-flex items-center gap-3 bg-accent text-white font-sans font-semibold text-[13px] uppercase tracking-[0.12em] px-7 py-4 transition-all duration-300 hover:bg-accent-hover"
+              >
+                Book a free call
+                <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <a
+                href="mailto:hello@arcstudio.in"
+                className="text-[13px] font-sans font-medium transition-colors duration-300"
+                style={{ color: 'rgba(255,255,255,0.3)' }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.8)')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.3)')}
+              >
+                hello@arcstudio.in
+              </a>
+            </div>
           </div>
         </div>
       </div>
