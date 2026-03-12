@@ -5,29 +5,30 @@
   --font-serif: "Instrument Serif", Georgia, serif;
   --font-mono: "JetBrains Mono", "SF Mono", monospace;
 
-  /* ── STRICT Color System: Black · White · Orange ONLY ── */
-  --color-surface:          #FFFFFF;
-  --color-surface-elevated: #F4F4F4;
-  --color-surface-dark:     #0A0A0A;
-  --color-primary:          #0A0A0A;
-  --color-primary-soft:     #1A1A1A;
-  --color-text-secondary:   #555555;
-  --color-text-muted:       #999999;
-  --color-accent:           #F77F00;
-  --color-accent-hover:     #D96E00;
-  --color-accent-soft:      rgba(247, 127, 0, 0.08);
-  --color-border:           rgba(0, 0, 0, 0.09);
-  --color-border-hover:     rgba(0, 0, 0, 0.2);
+  /* ── STRICT Color System: Cinematic Black · Orange · Cloud Dancer ── */
+  --color-surface:          #0A0A0A;
+  --color-surface-elevated: #111111;
+  --color-surface-light:    #F5F4EF;
+  --color-surface-dark:     #050505;
+  --color-primary:          #F5F4EF;
+  --color-primary-soft:     #E5E4DF;
+  --color-text-secondary:   #B8B8B8;
+  --color-text-muted:       #888888;
+  --color-accent:           #FF4D00;
+  --color-accent-hover:     #FF6A1A;
+  --color-accent-soft:      rgba(255, 77, 0, 0.08);
+  --color-border:           #1E1E1E;
+  --color-border-hover:     #333333;
 
   /* ── Typography Scale — editorial/display-first ── */
-  --text-display: clamp(3.5rem, 8vw + 0.5rem, 9.5rem);
-  --text-h1:      clamp(2.5rem, 5vw + 0.5rem, 6rem);
-  --text-h2:      clamp(2rem, 3.5vw + 0.5rem, 3.75rem);
-  --text-h3:      clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem);
-  --text-body-lg: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
+  --text-display: clamp(6rem, 10vw + 1rem, 8.75rem); /* ~110-140px */
+  --text-h1:      clamp(3rem, 6vw + 0.5rem, 6rem);
+  --text-h2:      clamp(3rem, 4.5vw, 4rem); /* ~48-64px */
+  --text-h3:      clamp(1.5rem, 2.5vw + 0.5rem, 2rem);
+  --text-body-lg: clamp(1rem, 0.5vw + 0.8rem, 1.125rem); /* ~16-18px */
   --text-body:    1rem;
-  --text-overline: 0.6875rem;
-  --text-caption:  0.75rem;
+  --text-overline: 0.8125rem; /* ~13px */
+  --text-caption:  0.875rem;  /* ~14px */
 
   /* ── Fluid Spacing ── */
   --spacing-section:    clamp(5rem, 10vw, 9rem);
@@ -64,7 +65,7 @@
 
   ::selection {
     background: var(--color-accent);
-    color: #fff;
+    color: var(--color-surface);
   }
 
   body {
@@ -79,13 +80,14 @@
 
   h1 {
     font-size: var(--text-display);
-    line-height: 1.0;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
     font-weight: 400;
   }
 
   h2 {
     font-size: var(--text-h2);
-    line-height: 1.06;
+    line-height: 1.1;
     font-weight: 400;
   }
 
@@ -97,6 +99,8 @@
 
   p {
     @apply max-w-prose;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
   }
 
   html.lenis, html.lenis body {

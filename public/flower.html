@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Interactive Flower</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
+        #root { width: 100%; height: 100%; }
+    </style>
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+            "framer-motion": "https://esm.sh/framer-motion@10.16.4",
+            "three": "https://esm.sh/three@0.160.0"
+        }
+    }
+    </script>
+    <script type="module">
+        import React from 'react';
+        import * as ReactDOM from 'react-dom/client';
+        import * as JSXRuntime from 'react/jsx-runtime';
+        import * as FramerMotion from 'framer-motion';
+        import * as THREE from 'three';
+        import { EffectComposer } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/EffectComposer';
+        import { RenderPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/RenderPass';
+        import { UnrealBloomPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/UnrealBloomPass';
+
+        async function init() {
+            // Provide globals for the patched component
+            window.__REACT__ = React;
+            window.__REACT_DOM__ = ReactDOM;
+            window.__REACT_JSX_RUNTIME__ = JSXRuntime;
+            window.__THREE__ = THREE;
+            window.__THREE_POSTPROCESSING__ = { EffectComposer, RenderPass, UnrealBloomPass };
+            window.__FRAMER_MOCK__ = {
+                ...FramerMotion,
+                addPropertyControls: () => {},
+                ControlType: {
+                    Boolean: "boolean", Number: "number", String: "string", Enum: "enum",
+                    Color: "color", Image: "image", File: "file", ComponentInstance: "componentInstance",
+                    Array: "array", Object: "object", Transition: "transition", Font: "font"
+                },
+                useIsStaticRenderer: () => false
+            };
+
+            // Load the patched component DYNAMICALLY to ensure globals are set
+            try {
+                const { default: Flower } = await import('./tdf_flower.js');
+                const rootElement = document.getElementById('root');
+                const root = ReactDOM.createRoot(rootElement);
+                root.render(React.createElement(Flower, { 
+                    style: { width: '100%', height: '100%', display: 'block' },
+                    petalColor: "#FF4D00",
+                    innerGlowColor: "#FF6A1A",
+                    stamenColor: "#FFFFFF",
+                    stemColor: "#1E1E1E",
+                    backgroundColor: "transparent",
+                    bloomStrength: 80, // Strong bloom multiplier
+                    petalCount: 8,
+                    flowerScale: 150 // 1.5x scale (centered)
+                }));
+            } catch (e) {
+                console.error("Failed to render flower:", e);
+                document.body.style.background = "rgba(255,0,0,0.1)";
+            }
+        }
+
+        init();
+    </script>
+</head>
+<body style="background: transparent;">
+    <div id="root"></div>
+</body>
+</html>

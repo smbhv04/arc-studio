@@ -6,12 +6,15 @@ import * as THREE from "three";
 // Key trick: bypass all camera/projection matrices in vertex shader
 // so the plane maps EXACTLY to NDC and always fills the screen.
 const vertexShader = `
+varying vec2 vUv;
 void main() {
+  vUv = position.xy * 0.5 + 0.5;
   gl_Position = vec4(position.xy, 0.0, 1.0);
 }
 `;
 
 const fragmentShader = `
+varying vec2 vUv;
 uniform float uTime;
 uniform vec2 uMouse;      // normalized [0..1]
 uniform vec2 uResolution; // viewport in pixels
@@ -45,34 +48,31 @@ float snoise(vec2 v) {
 // -------------------------
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / uResolution.xy;
+  vec2 uv = vUv;
+
+  // Enhance aspect ratio slightly to widen the noise (so horizontal doesn't feel squished)
+  vec2 aspectUV = vec2(uv.x * (uResolution.x / uResolution.y), uv.y);
 
   // Slow organic noise layers
-  float n1 = snoise(uv * 2.0  + uTime * 0.08);
-  float n2 = snoise(uv * 3.0  - uTime * 0.12 + n1 * 0.4);
-  float n3 = snoise(uv * 1.5  + uTime * 0.05 + n2 * 0.3);
-
-  // Mouse influence — creates a warm "pull" where cursor is
-  float mouseDist = distance(uv, uMouse);
-  float mouseStrength = 1.0 - smoothstep(0.0, 0.5, mouseDist);
+  float n1 = snoise(uv * 1.5  + uTime * 0.08); // Relaxed noise scale to make background bigger
+  float n2 = snoise(uv * 2.0  - uTime * 0.06 + n1 * 0.4);
+  float n3 = snoise(uv * 1.0  + uTime * 0.04 + n2 * 0.3);
   
-  // Distort UVs toward mouse for a "liquid gravity" effect
-  vec2 distortedUV = uv + normalize(uMouse - uv) * mouseStrength * 0.12;
-  float n4 = snoise(distortedUV * 2.5 + uTime * 0.1);
+  float n4 = snoise(uv * 1.5 + uTime * 0.08);
 
-  // Mix colors
-  float mix1 = smoothstep(-0.4, 0.8, n2 + mouseStrength * 0.3);
-  float mix2 = smoothstep(-0.2, 1.0, n3 + n4 * 0.5 + mouseStrength * 0.4);
+  // Mix colors smoothly through layers
+  float mix1 = smoothstep(-0.4, 0.8, n2);
+  float mix2 = smoothstep(-0.2, 1.0, n3 + n4 * 0.5);
 
   vec3 col = mix(uColor3, uColor2, mix1);
   col = mix(col, uColor1, mix2 * 0.9);
 
-  // Vignette: darken edges to keep focus on center
-  float vignette = 1.0 - smoothstep(0.3, 1.0, distance(uv, vec2(0.5)) * 1.5);
+  // Vignette: darken edges to keep focus on center, but broadened to cover full background
+  float vignette = 1.0 - smoothstep(0.2, 1.5, distance(uv, vec2(0.5)) * 1.2);
   col *= vignette;
 
-  // Boost brightness near mouse
-  col += uColor1 * mouseStrength * 0.2;
+  // Removed bright cursor dot
+  // col += uColor1 * mouseStrength * 0.2;
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -88,9 +88,9 @@ const ShaderPlane = () => {
       uTime:       { value: 0 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
       uMouse:      { value: new THREE.Vector2(0.5, 0.5) },
-      uColor1:     { value: new THREE.Color("#F77F00") },
-      uColor2:     { value: new THREE.Color("#5C1800") },
-      uColor3:     { value: new THREE.Color("#000000") },
+      uColor1:     { value: new THREE.Color("#FF3300") }, // Hot sunset red-orange
+      uColor2:     { value: new THREE.Color("#FF8C00") }, // Bright orange glow
+      uColor3:     { value: new THREE.Color("#3D0C00") }, // Deep mahogany bounding the black
     }),
     []
   );
@@ -101,12 +101,6 @@ const ShaderPlane = () => {
     
     mat.uniforms.uTime.value = state.clock.getElapsedTime();
     mat.uniforms.uResolution.value.set(size.width, size.height);
-
-    // Convert r3f normalized mouse (-1..1) to UV (0..1) and lerp smoothly
-    const targetX = (state.mouse.x + 1) / 2;
-    const targetY = (state.mouse.y + 1) / 2;
-    mat.uniforms.uMouse.value.x += (targetX - mat.uniforms.uMouse.value.x) * 0.04;
-    mat.uniforms.uMouse.value.y += (targetY - mat.uniforms.uMouse.value.y) * 0.04;
   });
 
   return (

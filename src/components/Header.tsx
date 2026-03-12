@@ -31,26 +31,26 @@ const Header = () => {
       }`}
     >
       <div
-        className="max-w-[1600px] mx-auto flex items-center justify-between h-16 md:h-20"
+        className="max-w-[1600px] mx-auto flex items-center justify-between h-16 md:h-20 relative"
         style={{ paddingLeft: 'clamp(1.25rem, 5vw, 6rem)', paddingRight: 'clamp(1.25rem, 5vw, 6rem)' }}
       >
         {/* Logo */}
         <a
           href="/"
-          className="text-xl md:text-2xl font-serif tracking-tight relative z-50 transition-colors duration-300"
+          className="text-xl md:text-2xl font-serif tracking-tight relative z-50 transition-colors duration-300 flex-shrink-0"
           style={{ color: mobileOpen ? 'var(--color-primary)' : onDark ? '#FFFFFF' : 'var(--color-primary)' }}
         >
           ARC<span style={{ color: 'var(--color-accent)' }}>.</span>
         </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
+        {/* Desktop Nav - Absolutely centered */}
+        <nav className="hidden lg:flex items-center gap-8 xl:gap-10 absolute left-[50%] -translate-x-[50%]">
           {['Services', 'Work', 'Process', 'Pricing'].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="relative text-[13px] font-sans font-medium transition-colors duration-300 group"
-              style={{ color: onDark ? 'rgba(255,255,255,0.55)' : 'var(--color-text-secondary)' }}
+              className="relative text-[14px] md:text-[15px] tracking-[0.04em] font-sans font-medium transition-colors duration-300 group"
+              style={{ color: onDark ? 'rgba(255,255,255,0.7)' : 'var(--color-text-secondary)' }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.color = onDark ? '#FFFFFF' : 'var(--color-primary)';
               }}
@@ -65,22 +65,29 @@ const Header = () => {
         </nav>
 
         {/* CTA button — desktop */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:block flex-shrink-0">
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 font-sans font-semibold text-[12px] uppercase tracking-[0.14em] px-5 py-3 transition-all duration-300"
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden text-white font-sans font-semibold text-[14px] uppercase tracking-[0.08em] px-5 py-3 transition-all duration-500 hover:-translate-y-0.5"
             style={{
-              background: onDark ? 'rgba(255,255,255,0.1)' : 'var(--color-primary)',
+              background: onDark ? 'rgba(255,255,255,0.1)' : 'var(--color-accent)',
+              backdropFilter: 'blur(12px)',
+              border: onDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid transparent',
               color: '#FFFFFF',
-              backdropFilter: onDark ? 'blur(8px)' : undefined,
-              border: onDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid transparent',
+              boxShadow: '0 0 0 rgba(255, 77, 0, 0)',
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-accent)'; }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = onDark ? 'rgba(255,255,255,0.2)' : 'var(--color-accent)';
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = onDark ? 'rgba(255,255,255,0.4)' : 'transparent';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 25px rgba(255, 106, 26, 0.4)';
+            }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = onDark ? 'rgba(255,255,255,0.1)' : 'var(--color-primary)';
+              (e.currentTarget as HTMLAnchorElement).style.background = onDark ? 'rgba(255,255,255,0.1)' : 'var(--color-accent)';
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = onDark ? 'rgba(255,255,255,0.2)' : 'transparent';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 rgba(255, 106, 26, 0)';
             }}
           >
-            Get in touch
+            <span className="relative z-10">Get in touch</span>
           </a>
         </div>
 
