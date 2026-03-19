@@ -71,9 +71,6 @@ void main() {
   float vignette = 1.0 - smoothstep(0.2, 1.5, distance(uv, vec2(0.5)) * 1.2);
   col *= vignette;
 
-  // Removed bright cursor dot
-  // col += uColor1 * mouseStrength * 0.2;
-
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -128,8 +125,8 @@ const AnimatedGradientBackground: React.FC<AnimatedGradientBackgroundProps> = ({
 }) => {
   return (
     <div
-      className={`absolute inset-0 overflow-hidden ${containerClassName}`}
-      style={{ width: "100%", height: "100%" }}
+      className={containerClassName}
+      style={{ position: 'absolute', inset: 0, overflow: 'hidden', width: '100%', height: '100%' }}
     >
       <Canvas
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
@@ -140,17 +137,23 @@ const AnimatedGradientBackground: React.FC<AnimatedGradientBackgroundProps> = ({
           depth: false,
           powerPreference: "high-performance",
         }}
-        dpr={Math.min(window.devicePixelRatio, 2)}
+        dpr={typeof window !== "undefined" ? Math.min(window.devicePixelRatio, 2) : 1}
       >
         <ShaderPlane />
       </Canvas>
 
       {/* Grain overlay for editorial texture */}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ opacity: 0.04, mixBlendMode: "overlay" }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: 'none',
+          opacity: 0.04,
+          mixBlendMode: "overlay"
+        }}
       >
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full object-cover">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
           <filter id="shaderGrain">
             <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" />
           </filter>

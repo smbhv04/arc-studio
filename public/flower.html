@@ -53,14 +53,12 @@
                 const root = ReactDOM.createRoot(rootElement);
                 root.render(React.createElement(Flower, { 
                     style: { width: '100%', height: '100%', display: 'block' },
-                    petalColor: "#FF4D00",
-                    innerGlowColor: "#FF6A1A",
-                    stamenColor: "#FFFFFF",
-                    stemColor: "#1E1E1E",
+                    stamenColor: "#FFD700",
+                    stemColor: "#1a1a1a",
                     backgroundColor: "transparent",
-                    bloomStrength: 80, // Strong bloom multiplier
-                    petalCount: 8,
-                    flowerScale: 150 // 1.5x scale (centered)
+                    bloomStrength: 30, 
+                    petalCount: 12, // More petals for volume
+                    flowerScale: 100 // Standard scale
                 }));
             } catch (e) {
                 console.error("Failed to render flower:", e);
